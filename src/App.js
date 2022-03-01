@@ -23,7 +23,7 @@ const App = () => {
 
   //FetchWords
   const fetchWords = async () => {
-    const res = await fetch("http://localhost:3000/words");
+    const res = await fetch("https://wordplusplus-api.herokuapp.com/words");
     const data = await res.json();
     return data;
   };
@@ -33,7 +33,7 @@ const App = () => {
   const addWord = async(word) =>{
     console.log(word)
     const newWord = {...word}
-    const res = await fetch("http://localhost:3000/words", {
+    const res = await fetch("https://wordplusplus-api.herokuapp.com/words", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
