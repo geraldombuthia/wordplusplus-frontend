@@ -1,25 +1,75 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
 
-function App() {
+import Header from "./components/Header";
+import Words from "./components/Words";
+import AddWord from "./components/AddWord";
+import ViewWord from "./components/ViewWord";
+
+const App = () => {
+  const [word, setWord] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  const [words, setWords] = useState([]);
+
+  useEffect(() => {
+    const getWords = async() => {
+      const wordsFromServer = await fetchWords()
+      setWords(wordsFromServer)
+
+      console.log(wordsFromServer)
+    }
+
+    getWords();
+  }, []);
+
+  //FetchWords
+  const fetchWords = async () => {
+    const res = await fetch("http://localhost:3000/words");
+    const data = await res.json();
+    return data;
+  };
+
+  fetchWords();
+  //Adding a word
+  const addWord = async(word) =>{
+    console.log(word)
+    const newWord = {...word}
+    const res = await fetch("http://localhost:3000/words", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(newWord),
+    })
+    const data = await res.json()
+    setWords([...words, data])
+    setShowAdd(false)
+  }
+
+  const onClick = () => {
+    //add button
+    setShowAdd(!showAdd);
+  };
+
+  const onOpen = (id) => {
+    //View menu for each word
+    //need for ids for edits etc...
+    setWord(words.filter((word) => word._id === id));
+  };
+
+  const onView = () => {
+    console.log("View Word");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header onClick={onClick} showAdd={showAdd} />
+      {showAdd ? <AddWord onAdd = {addWord}/> : ""}
+      {word ? (
+        <ViewWord word={word} onClick={() => setWord("")} />
+      ) : (
+        <Words words={words} onView={onView} onOpen={onOpen} />
+      )}
     </div>
   );
-}
-
+};
 export default App;
