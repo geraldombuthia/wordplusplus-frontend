@@ -37,6 +37,7 @@ const AddWord = ({ onAdd }) => {
     setWord_type("")
     setExample("")
     setSynonyms([])
+    setVerified(false)
   }
 
 
