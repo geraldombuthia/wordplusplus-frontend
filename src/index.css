@@ -118,3 +118,25 @@ footer {
   margin-top: 30px;
   text-align: center;
 }
+
+.search-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px grey solid;
+  width: 97%;
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-bottom: 2em;
+}
+.search-div > .input{
+  width: 80%;
+  border:none;
+  height: 2em;
+  margin-left: 2px;
+  outline: none;
+}
+.search-div > .input_btn{
+  padding:0 1em;
+  border:none;
+}

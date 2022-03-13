@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Words from "./components/Words";
 import AddWord from "./components/AddWord";
 import ViewWord from "./components/ViewWord";
+import Search from "./components/Search";
 
 const App = () => {
   const [word, setWord] = useState("");
@@ -44,7 +45,10 @@ const App = () => {
     setWords([...words, data])
     setShowAdd(false)
   }
-
+ //Search word
+ const onSearch = (searchedWord) => {
+   console.log("searched for", searchedWord)
+ }
   const onClick = () => {
     //add button
     setShowAdd(!showAdd);
@@ -63,6 +67,7 @@ const App = () => {
   return (
     <div className="container">
       <Header onClick={onClick} showAdd={showAdd} />
+      <Search onSearch = {onSearch}/>
       {showAdd ? <AddWord onAdd = {addWord}/> : ""}
       {word ? (
         <ViewWord word={word} onClick={() => setWord("")} />
