@@ -5,19 +5,21 @@ import Words from "./components/Words";
 import AddWord from "./components/AddWord";
 import ViewWord from "./components/ViewWord";
 import Search from "./components/Search";
+import SearchedWords from "./components/SearchedWords";
 
 const App = () => {
   const [word, setWord] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+  const [showWord, setShowWord] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
   const [words, setWords] = useState([]);
+  const [searchedWords, setSearchedWords] = useState([]);
 
   useEffect(() => {
-    const getWords = async() => {
-      const wordsFromServer = await fetchWords()
-      setWords(wordsFromServer)
-
-      console.log(wordsFromServer)
-    }
+    const getWords = async () => {
+      const wordsFromServer = await fetchWords();
+      setWords(wordsFromServer);
+    };
 
     getWords();
   }, []);
@@ -28,36 +30,50 @@ const App = () => {
     const data = await res.json();
     return data;
   };
-
-  fetchWords();
+  //search single word
+  const onSearch = async (toSearch) => {
+    setSearchedWords("");
+    const res = await fetch(
+      `https://wordplusplus-api.herokuapp.com/words/single/${toSearch}`
+    );
+    const data = await res.json();
+    if (data.length === 0) {
+      alert("not present");
+      return;
+    }
+    setSearchedWords(data);
+  };
   //Adding a word
-  const addWord = async(word) =>{
-    console.log(word)
-    const newWord = {...word}
+  const addWord = async (word) => {
+    console.log(word);
+    const newWord = { ...word };
     const res = await fetch("https://wordplusplus-api.herokuapp.com/words", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(newWord),
-    })
-    const data = await res.json()
-    setWords([...words, data])
-    setShowAdd(false)
-  }
- //Search word
- const onSearch = (searchedWord) => {
-   console.log("searched for", searchedWord)
- }
+    });
+    const data = await res.json();
+    setWords([...words, data]);
+    setShowAdd(false);
+  };
+
   const onClick = () => {
     //add button
     setShowAdd(!showAdd);
+    setShowSearch(false)
   };
-
-  const onOpen = (id) => {
+  const onClickSearch = () => {
+    setShowSearch(!showSearch);
+    setShowAdd(false)
+  };
+  const onOpen = (id, type) => {
     //View menu for each word
     //need for ids for edits etc...
-    setWord(words.filter((word) => word._id === id));
+    type === "search"?
+    setWord(searchedWords.filter((word) => word._id === id)):
+    setWord(words.filter((word) => word._id === id))
   };
 
   const onView = () => {
@@ -66,9 +82,22 @@ const App = () => {
 
   return (
     <div className="container">
-      <Header onClick={onClick} showAdd={showAdd} />
-      <Search onSearch = {onSearch}/>
-      {showAdd ? <AddWord onAdd = {addWord}/> : ""}
+      <Header
+        onClick={onClick}
+        showAdd={showAdd}
+        onClickSearch={onClickSearch}
+        showSearch={showSearch}
+      />
+      {showSearch ? (
+        <>
+          <Search onSearch={onSearch} />
+          <SearchedWords searchedWords={searchedWords} onOpen={onOpen} />
+        </>
+      ) : (
+        ""
+      )}
+
+      {showAdd ? <AddWord onAdd={addWord} /> : ""}
       {word ? (
         <ViewWord word={word} onClick={() => setWord("")} />
       ) : (

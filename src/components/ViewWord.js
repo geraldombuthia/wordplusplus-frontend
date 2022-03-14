@@ -10,10 +10,10 @@ const ViewWord = ({word, onClick}) => {
         <Button color = {"red"} text = {"Back"} onClick = {onClick} style={{width: "2em"}}/>
       </div>
       <p>{word[0].word_type.charAt(0).toUpperCase() + word[0].word_type.slice(1)}</p>
-      <p>{word[0].definition.charAt(0).toUpperCase() + word[0].definition.slice(1)}</p>
-      <p>"{word[0].example.charAt(0).toUpperCase() + word[0].example.slice(1)}."</p>
-      {/* <p>{word[0].definition.charAt(0).toUpperCase() + word[0].definition.slice(1)}</p>
-      <p>{word[0].definition.charAt(0).toUpperCase() + word[0].definition.slice(1)}</p> */}
+      <p>{word[0].plural.charAt(0).toUpperCase() + word[0].plural.slice(1)}</p>
+      <i>"{word[0].definition.charAt(0).toUpperCase() + word[0].example.slice(1)}."</i>
+      <p>{word[0].example.charAt(0).toUpperCase() + word[0].definition.slice(1)}</p>
+      <p>{word[0].synonyms.forEach((syn) => <div>{syn}</div>)}</p>
     </div>
   )
 }

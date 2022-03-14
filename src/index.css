@@ -140,3 +140,16 @@ footer {
   padding:0 1em;
   border:none;
 }
+
+.search-perimeter{
+  padding-bottom: 1em;
+  border: 1px rgb(90, 90, 252) solid;
+}
+
+.icons{
+  width: 4em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.3em;
+}
