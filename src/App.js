@@ -10,7 +10,6 @@ import SearchedWords from "./components/SearchedWords";
 const App = () => {
   const [word, setWord] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const [showWord, setShowWord] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [words, setWords] = useState([]);
   const [searchedWords, setSearchedWords] = useState([]);
