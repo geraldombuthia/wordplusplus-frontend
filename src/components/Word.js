@@ -1,12 +1,12 @@
 import { FaEllipsisV } from "react-icons/fa";
 const Word = ({ word, onView, onOpen}) => {
   return (
-    <div className="task"  >
-      <div onClick = {onView} className="sub-task">
-      <h3 style={{ color: "red", cursor: "pointer" }} >
+    <div className="task" onClick = {() => onOpen(word._id, "word")} >
+      <div className="sub-task">
+      <h3 style={{ color: "red", cursor: "pointer" }} className = "header-width">
         {word.word.charAt(0).toUpperCase() + word.word.slice(1)}
       </h3>
-      <p>{word.word_type}</p>
+      <p className ="word_type">{word.word_type}</p>
       </div>
       <FaEllipsisV onClick = {() => onOpen(word._id, "word")} className = "ellipsis"/>
     </div>
